@@ -53,28 +53,6 @@ async function connectWhatsApp() {
   })
 }
 
-// async function connectWhatsApp() {
-//   const { state, saveCreds } = await useMultiFileAuthState('session')
-//   sock = makeWASocket({
-//     auth: state,
-//     printQRInTerminal: true, // scan QR di terminal
-//   })
-
-//   sock.ev.on('creds.update', saveCreds)
-
-//   sock.ev.on('connection.update', (update) => {
-//     const { connection, lastDisconnect } = update
-//     if (connection === 'close') {
-//       const shouldReconnect =
-//         lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
-//       const reason = new Boom(lastDisconnect?.error).output.statusCode
-//       console.log('❌ Connection closed. Reason:', reason)
-//       if (shouldReconnect) connectWhatsApp()
-//     } else if (connection === 'open') {
-//       console.log('✅ WhatsApp Connected!')
-//     }
-//   })
-// }
 
 
 // kirim pesan ke nomor tertentu

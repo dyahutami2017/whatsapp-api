@@ -2,21 +2,21 @@ const express = require('express');
 let router = express.Router();
 const bodyParser = require('body-parser')
 const { connectWhatsApp, getSocket, isWhatsAppConnected } = require('./whatsapp')
-
+let { authenticateToken } = require('../middleware/auth');
 
 router.use(bodyParser.json())
 
-router.get('/connect', async (req, res) => {
+router.get('/connect', authenticateToken, async (req, res) => {
   try {
     await connectWhatsApp()
-    res.json({ success: true, message: 'WhatsApp terkoneksi' })
+    res.status(200).json({ success: true, message: 'WhatsApp terkoneksi' })
   } catch (err) {
     console.error('Error koneksi WhatsApp:', err)
     res.status(500).json({ error: err.message })
   }
 })
 // Endpoint kirim pesan
-router.post('/send-message', async (req, res) => {
+router.post('/send-message', authenticateToken, async (req, res) => {
   try {
     const { number, message } = req.body
 

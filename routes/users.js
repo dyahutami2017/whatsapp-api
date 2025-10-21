@@ -2,16 +2,19 @@ var express = require('express');
 var router = express.Router();
 var oracledb = require('oracledb');
 var dbConfig = require('../db');
+let { authenticateToken } = require('../middleware/auth');
 
 /* GET users listing. */
-router.get('/', async function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res, next) {
   let connection;
 
   try {
     connection = await dbConfig.init();
 
     const result = await connection.execute(
-      `SELECT * FROM V_KARYAWAN WHERE BAGIAN = 15 AND STATUS = 'A'`,
+      `SELECT NIK, NAMA,EMAIL, KARY_TYPE FROM V_KARYAWAN KAR 
+        LEFT JOIN V_EMAIL_KAR EMAIL USING(NIK) 
+        WHERE KAR.BAGIAN = 15 AND KAR.STATUS = 'A'`,
       [],
       { outFormat: oracledb.OUT_FORMAT_OBJECT } // Mengembalikan hasil sebagai objek
     );
