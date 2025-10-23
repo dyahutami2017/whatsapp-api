@@ -19,12 +19,22 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public'))); //karena path folder jadi menggunakan basePath
 
-app.use('/', indexRouter);
+const basePath = '/';
+
+app.use(basePath, express.static(path.join(__dirname, 'public')));
+
+/*app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/send', sendRouter);
-app.use('/server', serverRouter);
+app.use('/server', serverRouter);*/
+
+// karena path folder jadi menggunakan basePath
+app.use(basePath, indexRouter);
+app.use(basePath + 'users', usersRouter);
+app.use(basePath + 'send', sendRouter);
+app.use(basePath + 'server', serverRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
