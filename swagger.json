@@ -1,0 +1,157 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Project WhatsApp API",
+        "description": "API documentation for Project Send to WhatsApp"
+    },
+    "servers": [
+        {
+        "url": "https://devjs.dinamika.ac.id",
+        "description": "Development server"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "paths": {
+        "/server/token": {
+            "post": {
+                "summary": "Generate Access and Refresh Tokens",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nik": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["nik", "email"]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/server/refresh": {
+            "post": {
+                "summary": "Refresh Access Token",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "refreshToken": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["refreshToken"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Access token refreshed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "accessToken": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid refresh token"
+                    }
+                }
+            }
+        },
+        "/send/send-message" : {
+            "post": {
+                "summary": "Send WhatsApp Message",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "number": {
+                                        "type": "string"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["number", "message"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Unauthorized - Missing token"
+                    },
+                    "403": {
+                        "description": "Forbidden - Invalid token"
+                    },
+                    "200": {
+                        "description": "Message sent successfully"
+                    },
+                    "500": {
+                        "description": "Failed to send message"
+                    }
+                }
+            }
+        },
+        "/send/connect": {
+            "get": {
+                "summary": "Connect to WhatsApp",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Unauthorized - Missing token"
+                    },
+                    "403": {
+                        "description": "Forbidden - Invalid token"
+                    },
+                    "200": {
+                        "description": "Connected successfully"
+                    },
+                    "500": {
+                        "description": "Connection failed"
+                    }
+                }
+            }
+        }
+    }
+}

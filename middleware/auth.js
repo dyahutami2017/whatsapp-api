@@ -14,7 +14,7 @@ async function generateToken(user, res) {
         let email = user.email;
 
         if (!id_user || !email) {
-            return res.status(400).json({ error: 'id_user dan email wajib diisi' });
+            return res.status(400).json({ error: 'nik dan email wajib diisi' });
         }
 
         const accessToken = jwt.sign(
