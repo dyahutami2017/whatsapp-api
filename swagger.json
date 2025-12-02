@@ -42,6 +42,29 @@
                             }
                         }
                     }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tokens generated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "accessToken": {
+                                            "type": "string"
+                                        },
+                                        "refreshToken": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - Missing or invalid parameters"
+                    }
                 }
             }
         },
