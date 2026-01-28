@@ -6,7 +6,9 @@
     "start": "nodemon --ignore session/ ./bin/www"
   },
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.7.20",
+    "@whiskeysockets/baileys": "^7.0.0-rc.9",
+    "axios": "^1.13.2",
+    "bullmq": "^5.65.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
@@ -17,6 +19,7 @@
     "jade": "~1.11.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "~1.9.1",
+    "nodemailer": "^7.0.11",
     "pm2": "^6.0.13",
     "qrcode-terminal": "^0.12.0",
     "swagger-ui-express": "^5.0.1"

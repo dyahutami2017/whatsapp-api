@@ -6,7 +6,7 @@ let { authenticateToken } = require('../middleware/auth');
 
 router.use(bodyParser.json())
 
-router.get('/connect', authenticateToken, async (req, res) => {
+router.get('/connect', async (req, res) => {
   try {
     await connectWhatsApp()
     res.status(200).json({ success: true, message: 'WhatsApp terkoneksi' })
@@ -16,7 +16,7 @@ router.get('/connect', authenticateToken, async (req, res) => {
   }
 })
 // Endpoint kirim pesan
-router.post('/send-message', authenticateToken, async (req, res) => {
+router.post('/send-message', async (req, res) => {
   try {
     const { number, message } = req.body
 
@@ -30,6 +30,7 @@ router.post('/send-message', authenticateToken, async (req, res) => {
 
     res.json({ success: true, to: number, message })
   } catch (err) {
+    await connectWhatsApp() // coba koneksi ulang
     console.error('Error kirim pesan:', err)
     res.status(500).json({ error: err.message })
   }
